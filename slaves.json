@@ -1,0 +1,41 @@
+{
+  "id": "slaves-controller",
+  "kind": "ReplicationController",
+  "apiVersion": "v1beta1",
+  "desiredState": {
+    "replicas": 3,
+    "replicaSelector": {"name": "slaves"},
+    "podTemplate": {
+      "desiredState": {
+        "manifest": {
+          "version": "v1beta1",
+          "id": "placerSlaveController",
+          "containers": [{
+            "name": "slave",
+            "image": "kubernetes/pause",
+            "imagePullPolicy": "PullAlways",
+            "volumeMounts": [{
+                "mountPath": "/data",
+                "name": "workspace"
+            }]
+          }],
+          "volumes": [{
+            "name": "workspace",
+            "source": {
+              "persistentDisk": {
+                  "pdName":   "workspace",
+                  "fsType":   "ext4",
+                  "readOnly": true
+              }
+            }
+          }]
+        }
+      },
+      "labels": {
+        "name": "slaves"
+      }
+    }
+  },
+  "labels": {"name": "slaves"}
+}
+

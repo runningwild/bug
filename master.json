@@ -1,0 +1,39 @@
+{
+  "id": "master",
+  "kind": "Pod",
+  "apiVersion": "v1beta1",
+  "labels": {
+    "app": "master",
+    "stats": "stats"
+  },
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "master",
+      "containers": [{
+        "name": "master",
+        "image": "kubernetes/pause",
+        "imagePullPolicy": "PullAlways",
+        "volumeMounts": [
+          {
+            "mountPath": "/workspace",
+            "name": "workspace"
+          }
+        ]
+      }],
+      "volumes": [
+        {
+          "name": "workspace",
+          "source": {
+            "persistentDisk": {
+                "pdName":   "workspace",
+                "fsType":   "ext4",
+                "readOnly": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
